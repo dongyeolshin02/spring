@@ -18,9 +18,9 @@ public class PageVO {
 	
 	
 	//페이징 계산을 위한 초기 값 받기
-	public void setData(int currentPage, int totalPage) {
+	public void setData(int currentPage, int totalRows) {
 		this.currentPage = currentPage;
-		this.totalPage = totalPage;
+		this.totalRows = totalRows;
 		//한페이지 보여줄 개수
 		this.pagePerRows = 10;
 		//한블럭당 보여줄 페이지 개수

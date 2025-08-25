@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<%@ taglib prefix ="c" uri ="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,21 +57,22 @@
                 </tr>
               </thead>
               <tbody>
+                <c:forEach items="${data.dataList}" var="item">
+                   <tr>
+                     <td>${item.brdId}</td>
+                     <td>${item.title}</td>
+                     <td>${item.writer}</td>
+                     <td>${item.readCount}</td>
+                     <td>${item.likeCount}</td>
+                     <td>${item.modifiedDate}</td>
+                </c:forEach>
               </tbody>
            </table>
         </section>
         <section class="page">
 	        <nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
-			    <li class="page-item disabled">
-			      <a class="page-link">Previous</a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">1</a></li>
-			    <li class="page-item"><a class="page-link" href="#">2</a></li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#">Next</a>
-			    </li>
+			     ${data.pageHTML}
 			  </ul>
 			</nav>
         </section>
@@ -80,4 +81,22 @@
 </body>
 <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
 <script src="/webjars/jquery/bootstrap/5.3.1/js/bootstrap.min.js"></script>
+<script>
+
+   function movePage(pageNum) {
+	   //페이지 이동
+	   location.href ='/board/list.do?currentPage=' + pageNum;
+   }
+
+</script>
+
+
+
+
+
+
+
+
+
+
 </html>

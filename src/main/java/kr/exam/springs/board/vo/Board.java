@@ -1,10 +1,9 @@
 package kr.exam.springs.board.vo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -17,6 +16,8 @@ public class Board {
 		private String title;
 		private String contents;
 		private String writer;
+		//첨부파일 
+		private MultipartFile file;
 	}
 	
 	
@@ -28,8 +29,41 @@ public class Board {
 		private String writer;
 		private int readCount;
 		private int likeCount;
+		private LocalDateTime createDate;
+		private LocalDateTime updateDate;
+		
+		
+		/*
+		 * 클라이언트에서 vo 데이터를 가져갈 때는
+		 * getter 함수를 호출하여 가져간다.
+		 * get+ 이름 () >> 모두 getter 메서드이다.
+		 */
+		public String getModifiedDate() {
+			LocalDateTime modified = updateDate == null ? createDate : updateDate;
+			//시간 -> String
+			return modified.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		}
+	}
 	
-		private String createDate;
+	
+	
+	
+	
+	@Data
+	public static class BoardFiles{
+		
+		private int bfId;
+		
+		private int brdId;
+		
+		private String fileName;
+		
+		private String storedName;
+		
+		private String filePath;
+		
+		private long   fileSize;
 		
 	}
+	
 }

@@ -39,6 +39,7 @@
     </bean>
 
     
+    
 
     <!-- SqlSessionFactory 설정 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

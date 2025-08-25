@@ -22,5 +22,8 @@ public interface BoardMapper {
 	 * @return
 	 */
 	List<Board.Response> getBoardList(Map<String, Object> param);
-	
+	//글등록
+	int insertBoard(Board.Request request);
+	//파일 등록
+	int  insertBoardFiles(Board.BoardFiles files);
 }

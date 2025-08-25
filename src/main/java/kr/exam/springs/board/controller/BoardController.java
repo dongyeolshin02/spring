@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.exam.springs.board.service.BoardService;
-import kr.exam.springs.service.TestService;
+import kr.exam.springs.board.vo.Board;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -49,4 +52,77 @@ public class BoardController {
 		return view;
 	}
 	
+	
+	
+	@RequestMapping("/list2.do")
+	public ModelAndView boardListView2() {
+		ModelAndView view = new ModelAndView("board/boardList2");
+		return view;
+	}
+	
+	// get방식으로만 호출해야함
+	// view가 아니라 ajax 로 인한 data를 return 해야함 
+	@ResponseBody
+	@GetMapping("/list/data.do")
+	public Map<String, Object> getListData(@RequestParam(name="currentPage", defaultValue = "0")int currentPage){
+		Map<String, Object> dataMap = new HashMap<>();
+		
+		try {
+			
+			dataMap.put("currentPage", currentPage);
+			dataMap = service.getBoardList(dataMap);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dataMap;
+	}
+	
+	
+	@GetMapping("/form.do")
+	public ModelAndView writeView( ) {
+		return new ModelAndView("board/writeForm");
+	}
+	
+	
+	@PostMapping("/write.do")
+	public ModelAndView  writeBoard(@ModelAttribute Board.Request request)  {
+	
+		int result = 0;
+		String msg = "";
+		
+		ModelAndView view = new ModelAndView();
+		view.setViewName("redirect:/board/list2.do");
+		try {
+			
+			result = service.writeBoard(request);
+			msg =  result > 0 ? "새글이 등록되었습니다." : "글등록이 실패했습니다.";
+					
+		}catch (Exception e) {
+			msg = "글등록 중에 오류가 발생했습니다.";
+			e.printStackTrace();
+		}finally {
+			view.addObject("msg", msg);
+		}
+		
+		
+		return view;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

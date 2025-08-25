@@ -19,10 +19,28 @@
              writer,
              read_count,
              like_count,
-             create_date
+             create_date,
+             update_date
       from board
       order by brd_id desc
       limit #{offSet}, #{count}
       
   </select>
+  
+  
+  <insert id="insertBoard" parameterType="boardReq" useGeneratedKeys="true"  keyProperty="brdId">
+  
+  	insert  into  board(title, contents, writer)
+  	  values(  #{title},  #{contents},  #{writer} )
+  </insert>
+  
+  
+  <insert id="insertBoardFiles"  parameterType="boradFiles">
+  
+     insert into board_files(brd_id, file_name, stored_name, file_path, file_size)
+     values(#{brdId},  #{fileName},  #{storedName},  #{filePath},  #{fileSize}  )
+  
+  </insert>
+  
+  
 </mapper>
