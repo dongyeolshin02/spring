@@ -5,5 +5,12 @@
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
-
+	
+	
+	<typeAliases>
+	    <typeAlias type="java.util.Map"  alias="map"/>
+		<typeAlias type="kr.exam.springs.board.vo.Board$Request" alias="boardReq"/>
+		<typeAlias type="kr.exam.springs.board.vo.Board$Response" alias="boardResp"/>
+	</typeAliases>
+	
 </configuration>

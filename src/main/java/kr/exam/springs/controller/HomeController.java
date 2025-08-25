@@ -3,12 +3,11 @@ package kr.exam.springs.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import kr.exam.springs.service.TestService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 
 
@@ -18,7 +17,6 @@ public class HomeController {
 
 	private final TestService testService;
 
-	
 	
 	//@RequestMapping(name="/hello.do")  //get , post 모두 가능 
 	//@RequestMapping(name="/hello.do", method = RequestMethod.GET) // get방식 만 접근 가능 

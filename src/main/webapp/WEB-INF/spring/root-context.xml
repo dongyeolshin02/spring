@@ -38,22 +38,13 @@
         <property name="leakDetectionThreshold" value="60000" />
     </bean>
 
-    <!-- dataSource 로그 찍기 위한 설정 (원래 방식 유지) -->
-    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-        <constructor-arg ref="hikariDataSource" />
-        <property name="logFormatter">
-            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-                <property name="loggingType" value="MULTI_LINE" />
-                <property name="sqlPrefix" value="SQL >  "/>
-            </bean>
-        </property>
-    </bean>
+    
 
     <!-- SqlSessionFactory 설정 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:mybatis-config.xml"></property>
         <property name="mapperLocations" value="classpath*:sql/**/*.xml"/>
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="hikariDataSource" />
     </bean>
 
     <!-- SqlSessionTemplate 설정 -->

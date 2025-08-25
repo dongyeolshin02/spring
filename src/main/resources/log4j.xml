@@ -98,7 +98,7 @@
 
     <!-- HikariCP 로그 -->
     <logger name="com.zaxxer.hikari">
-        <level value="DEBUG" />
+        <level value="OFF" />
     </logger>
 
     <!-- 애플리케이션별 로그 (패키지명에 따라 수정 필요) -->
