@@ -40,7 +40,7 @@
         	<button type="button" class="btn btn-primary" onclick="goWrite();">글쓰기</button>
         </section>
         <section class="data-list">
-           <input type="hidden" id="currentPage" name="currentPage" value="0">
+           <input type="hidden" id="currentPage" name="currentPage" value="${currentPage}">
            <table class='table'>
               <colgroup>
               	<col style="width:10%"/>
@@ -117,9 +117,13 @@
 	   //테이블 만들기 
 	   $.each(data.dataList, function(index, obj){
 		  const tr = $('<tr></tr>'); 
+		  const link = $('<a></a>');
+		  link.attr('href', 'javascript:void(0);');
+		  //jquery에서 객체에 이벤트 바인딩 하는 방법 
+		  link.on('click', ()=> goDteail(obj.brdId) );
 		  
 		  tr.append(makeTD('', obj.brdId));
-		  tr.append(makeTD('', obj.title));
+		  tr.append(makeTD('', link.append(obj.title)) );
 		  tr.append(makeTD('', obj.writer));
 		  tr.append(makeTD('', obj.readCount));
 		  tr.append(makeTD('', obj.likeCount));
@@ -153,6 +157,13 @@
 	   getBoardData();
 	   
    });
+   
+   
+   
+   const goDteail = (brdId) =>{
+	   const currentPage = $('#currentPage').val();
+	   location.href = '/board/detail.do?brdId=' + brdId +"&currentPage=" + currentPage;
+   }
 
 </script>
 

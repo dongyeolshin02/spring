@@ -236,6 +236,21 @@
 		    <version>1.16</version>
 		</dependency>
 		
+		<!-- Mockito -->
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-core</artifactId>
+		    <version>3.12.4</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- JSON Path (JSON 응답 테스트용) -->
+		<dependency>
+		    <groupId>com.jayway.jsonpath</groupId>
+		    <artifactId>json-path</artifactId>
+		    <version>2.6.0</version>
+		    <scope>test</scope>
+		</dependency>
 		
 	</dependencies>
 

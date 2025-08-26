@@ -2,6 +2,8 @@ package kr.exam.springs.board.vo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,6 +48,27 @@ public class Board {
 	}
 	
 	
+	@Data
+	public static class Detail{	
+		private int brdId;
+		private String title;
+		private String writer;
+		private String contents;
+		private int readCount;
+		private int likeCount;
+		private LocalDateTime createDate;
+		private LocalDateTime updateDate;
+		//첨부파일 리스트 
+		List<BoardFiles> files;
+		
+		//list에 값이 없을 시 null 처리 위해 초기화 
+		public List<BoardFiles> getFiles(){
+			if(this.files == null) {
+				this.files = new ArrayList<>();
+			}
+			return this.files;
+		}
+	}
 	
 	
 	

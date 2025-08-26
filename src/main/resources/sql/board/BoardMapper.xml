@@ -3,6 +3,22 @@
 
 <mapper namespace="kr.exam.springs.board.mapper.BoardMapper">
 
+<resultMap type="boardDetail" id="boardDetailMap">
+
+    <id property="brdId" column="brd_id"/>
+    <result property="title" column ="title"/>
+    <result property="writer" column ="writer"/>
+    <result property="contents" column ="contents"/>
+    <result property="readCount" column ="read_count"/>
+    <result property="likeCount" column ="like_count"/>
+    <result property="createDate" column ="create_date"/>
+    <result property="updateDate" column ="update_date"/>
+    <!-- 파일리스트 매핑 -->
+    <collection property="files" ofType="boardFiles">
+    	<id property="bfId" column="bf_id"/>
+    	<result property="fileName" column ="file_name"/>
+    </collection>
+</resultMap>
 
   <select id="getBoardTotal"  resultType="int"> 
   
@@ -27,6 +43,40 @@
       
   </select>
   
+  <!-- resultType : 클래스를 직접사용,  resultMap : mybatis의 resultMap 사용 시  -->
+  <select id="getBoard" parameterType="map"  resultMap="boardDetailMap">
+  
+	  	select b.brd_id,
+		       b.title,
+		       b.contents ,
+		       b.writer ,
+		       b.read_count ,
+		       b.like_count ,
+		       b.create_date ,
+		       b.update_date ,
+		       bf.bf_id ,
+		       bf.file_name
+		from board b
+		  left join board_files bf on b.brd_id  = bf.brd_id
+		where b.brd_id = #{brdId}
+  
+  
+  
+  </select>
+  
+  
+  <select id="getBoardFiles"  parameterType="map" resultType="boardFiles">
+  
+   	   select  bf_id ,
+		       file_name,
+		       stored_name,
+		       file_path
+		from   board_files 
+		where bf_id = #{bfId}
+  
+  
+  </select>
+  
   
   <insert id="insertBoard" parameterType="boardReq" useGeneratedKeys="true"  keyProperty="brdId">
   
@@ -35,12 +85,22 @@
   </insert>
   
   
-  <insert id="insertBoardFiles"  parameterType="boradFiles">
+  <insert id="insertBoardFiles"  parameterType="boardFiles">
   
      insert into board_files(brd_id, file_name, stored_name, file_path, file_size)
      values(#{brdId},  #{fileName},  #{storedName},  #{filePath},  #{fileSize}  )
   
   </insert>
+  
+  
+  
+ <update id="updateLikeCount"  parameterType="map" >
+ 
+ 	  update board
+ 	  set  like_count = #{likeCount}
+ 	  where brd_id = #{brdId}
+ 
+ </update>
   
   
 </mapper>

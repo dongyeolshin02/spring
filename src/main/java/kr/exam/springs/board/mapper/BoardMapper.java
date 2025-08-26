@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.exam.springs.board.vo.Board;
 
@@ -26,4 +27,12 @@ public interface BoardMapper {
 	int insertBoard(Board.Request request);
 	//파일 등록
 	int  insertBoardFiles(Board.BoardFiles files);
+	//게시글 상세
+	Board.Detail getBoard(@Param("brdId") int brdId);
+	//첨부파일 정보 
+	Board.BoardFiles getBoardFiles(@Param("bfId") int bfId);
+	//좋아요 올리기
+	int updateLikeCount(Map<String, Object> param);
+	
+	
 }

@@ -1,7 +1,15 @@
 package kr.exam.springs.board.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.annotation.InitBinderDataBinderFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.exam.springs.board.service.BoardService;
@@ -55,8 +64,9 @@ public class BoardController {
 	
 	
 	@RequestMapping("/list2.do")
-	public ModelAndView boardListView2() {
+	public ModelAndView boardListView2(@RequestParam(name="currentPage", defaultValue = "0") int currentPage) {
 		ModelAndView view = new ModelAndView("board/boardList2");
+		view.addObject("currentPage", currentPage);
 		return view;
 	}
 	
@@ -93,7 +103,7 @@ public class BoardController {
 		String msg = "";
 		
 		ModelAndView view = new ModelAndView();
-		view.setViewName("redirect:/board/list2.do");
+		view.setViewName("board/result");
 		try {
 			
 			result = service.writeBoard(request);
@@ -110,6 +120,112 @@ public class BoardController {
 		return view;
 	}
 	
+	
+	@GetMapping("/detail.do")
+	public ModelAndView getBoardDetailView(@RequestParam("brdId") int brdId,
+											@RequestParam("currentPage") int currentPage) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("board/boardDetail");
+		Board.Detail detail = null;
+		try {
+			
+			detail = service.getBoard(brdId);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		view.addObject("vo", detail);
+		view.addObject("currentPage", currentPage);
+		
+		return view;
+	}
+	
+	
+	@GetMapping("/down.do")
+	public void getFileDown(@RequestParam("bfId") int bfId,
+							HttpServletResponse resp)  throws Exception{
+		
+		try {
+			
+			Board.BoardFiles boardFile = service.getBoardFiles(bfId);
+			if(boardFile == null) {
+				throw new Exception("DB Error");
+			}
+			
+			String fullPath = boardFile.getFilePath() + boardFile.getStoredName();
+			
+			File file = new File(fullPath);
+			
+			if(!file.exists()) {
+				throw new Exception("File not found");
+			}
+			
+			//한글깨짐방지를 위한 인코딩
+			String encodedName = URLEncoder.encode(boardFile.getFileName(), "UTF-8").replaceAll("\\+", "%20");
+			//파일길이
+			resp.setContentLength( (int)file.length());
+			//브라우저가 다운로드 창을 출력하게 만들자.
+			//바이너리 파일 다운로드 
+			resp.setContentType("application/octet-stream");
+			//첨부파일 등록
+			resp.setHeader("Content-Disposition", "attachment;filename=\"" + encodedName + "\"");
+			
+			//밖에 try-catch가 있어서 안해도 되지만...연습삼아 해보자.
+			try(
+				   FileInputStream in = new FileInputStream(file);
+				   BufferedInputStream bf = new BufferedInputStream(in);
+				   OutputStream out = resp.getOutputStream();
+				   BufferedOutputStream os = new BufferedOutputStream(out);
+				){
+				
+				
+				byte[] buffer = new byte[1024];
+				int length = 0;
+				
+				while( (length = bf.read(buffer))!= -1 )  {
+					os.write(buffer, 0, length);
+				}
+								
+			}catch (Exception e) {
+				throw new Exception();
+			}
+			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+			
+		}
+		
+	}
+	
+	@ResponseBody
+	@GetMapping("/like.do")
+	public Map<String, Object> updateLike(@RequestParam("brdId") int brdId,
+										 @RequestParam("likeCount") int likeCount){
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("likeCount", likeCount);
+		map.put("brdId", brdId);
+		map.put("msg", "");
+		
+		String msg = "";
+		
+		try {
+			
+			int result = service.updateLikeCount(map);
+			
+			if(result < 0) {
+				throw new Exception("업데이트 실패");
+			}
+			
+		}catch (Exception e) {
+			msg = e.getMessage() == null ? "업데이트 실패" : e.getMessage();
+			map.put("msg", msg);
+		}
+		
+		return map;	
+	}
 }
 
 

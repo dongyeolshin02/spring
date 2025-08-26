@@ -104,7 +104,6 @@ public class BoardService {
 	
 	public Board.BoardFiles  uploadFiles(int brdId, MultipartFile multiFile)  throws Exception{
 		
-		Board.BoardFiles  files = new BoardFiles();
 		//내용이 없음 > 선택 안하면 비어 있음 
 		if(multiFile.isEmpty()) {
 			return null;
@@ -139,15 +138,30 @@ public class BoardService {
 		multiFile.transferTo(newFile);
 		
 		
-		//files.setBrdId(brdId);
+		Board.BoardFiles  files = new BoardFiles();
+		files.setBrdId(brdId);
 		files.setFileName(fileName);
 		files.setStoredName(storedName);
 		files.setFilePath(filePath);
 		files.setFileSize(multiFile.getSize());
 	
-		
 		return files;
 		
+	}
+	
+	
+	public Board.Detail  getBoard(int brdId) throws Exception{
+		return mapper.getBoard(brdId);
+	}
+	
+	
+	public Board.BoardFiles  getBoardFiles(int bfId) throws Exception{
+		return mapper.getBoardFiles(bfId);
+	}
+	
+	
+	public int updateLikeCount(Map<String, Object> param) throws Exception{
+		return mapper.updateLikeCount(param);
 	}
 	
 }

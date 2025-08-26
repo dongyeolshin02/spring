@@ -11,7 +11,8 @@
 	    <typeAlias type="java.util.Map"  alias="map"/>
 		<typeAlias type="kr.exam.springs.board.vo.Board$Request" alias="boardReq"/>
 		<typeAlias type="kr.exam.springs.board.vo.Board$Response" alias="boardResp"/>
-		<typeAlias type="kr.exam.springs.board.vo.Board$BoardFiles" alias="boradFiles"/>
+		<typeAlias type="kr.exam.springs.board.vo.Board$BoardFiles" alias="boardFiles"/>
+		<typeAlias type="kr.exam.springs.board.vo.Board$Detail" alias="boardDetail"/>
 	</typeAliases>
 	
 </configuration>
