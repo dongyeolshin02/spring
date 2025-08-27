@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.checkerframework.checker.units.qual.m;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -102,6 +103,116 @@ public class BoardService {
 	}
 	
 	
+	@Transactional(
+			rollbackFor = Exception.class,
+			propagation = Propagation.REQUIRED, // 기존트랙션이 있음 사용, 없으면 생성 
+			isolation = Isolation.READ_COMMITTED //적용된것만 읽기 > 데이터를 가져올때 같은 시간에 수정 중이거나 처리 중인건 제외 
+			)
+	public int updateBoard(Board.Request request) throws Exception {
+		int result = 0;
+		
+		try {
+			
+			//1.수정하기 위해 기존 정보 불러온다 
+			Board.Detail detail =  mapper.getBoard(request.getBrdId());
+			
+			detail.setTitle(request.getTitle());
+			detail.setContents(request.getContents());
+			
+			result = mapper.updateBoard(detail);
+			
+			if(result < 0) {
+				throw new Exception();
+			}
+			
+			//파일 업로드할게 있으면 기존 파일 삭제 후  등록 
+			if( !request.getFile().isEmpty() ) {
+				
+				//기존 파일 삭제 
+				for(Board.BoardFiles file : detail.getFiles()) {
+					
+					String fullPath = file.getFilePath() + file.getStoredName();
+					//디비도 지우기 
+					mapper.deleteBoardFile(file.getBfId());
+					//물리적 파일 지우기 
+					this.deleteFile(fullPath);
+				}
+				
+				//2. 파일업로드
+				Board.BoardFiles files = this.uploadFiles(request.getBrdId(), request.getFile());
+				if(files != null) {
+					//3. 파일 등록 
+					result = mapper.insertBoardFiles(files);
+					
+					if(result < 0) {
+						throw new Exception();
+					}
+				}			
+			}
+			
+		}catch (Exception e) {
+			 throw new RuntimeException("글 등록 중 오류");
+		}
+		return result;
+	}
+	
+	//파일 하나 지우기 
+	public int deleteFile(int bfId) throws Exception{
+		int result = 0;
+		//기존 파일 정보 호출 
+		Board.BoardFiles fileInfo = mapper.getBoardFiles(bfId);
+		
+		if(fileInfo != null) {
+			
+			//디비에서 먼저 파일을 삭제 
+			result = mapper.deleteBoardFile(bfId);
+			
+			//디비에서 삭제 실패 시 예외 처리 
+			if(result < 0) throw new RuntimeException("파일 삭제 실패");
+			
+			String fullPath = fileInfo.getFilePath() + fileInfo.getStoredName();
+			//물리적 파일 지우기 
+			this.deleteFile(fullPath);
+		}
+		
+		return result;
+	}
+	
+	
+	/**
+	 * 상세화면 데이터 가져오기 
+	 * @param brdId
+	 * @return
+	 * @throws Exception
+	 */
+	public Board.Detail  getBoard(int brdId) throws Exception{
+		return mapper.getBoard(brdId);
+	}
+	
+	
+	/**
+	 * 파일정보 가져오기
+	 * @param bfId
+	 * @return
+	 * @throws Exception
+	 */
+	public Board.BoardFiles  getBoardFiles(int bfId) throws Exception{
+		return mapper.getBoardFiles(bfId);
+	}
+	
+	
+	/**
+	 * 좋아요 업데이트 
+	 * @param param
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateLikeCount(Map<String, Object> param) throws Exception{
+		return mapper.updateLikeCount(param);
+	}
+	
+	
+	
 	public Board.BoardFiles  uploadFiles(int brdId, MultipartFile multiFile)  throws Exception{
 		
 		//내용이 없음 > 선택 안하면 비어 있음 
@@ -150,18 +261,14 @@ public class BoardService {
 	}
 	
 	
-	public Board.Detail  getBoard(int brdId) throws Exception{
-		return mapper.getBoard(brdId);
+	// 물리적인 파일 지우기 
+	public void deleteFile(String filePath ) {
+		
+		File file = new File(filePath);
+		
+		if(file.exists()) {
+			file.delete();
+		}
 	}
-	
-	
-	public Board.BoardFiles  getBoardFiles(int bfId) throws Exception{
-		return mapper.getBoardFiles(bfId);
-	}
-	
-	
-	public int updateLikeCount(Map<String, Object> param) throws Exception{
-		return mapper.updateLikeCount(param);
-	}
-	
+
 }

@@ -34,5 +34,14 @@ public interface BoardMapper {
 	//좋아요 올리기
 	int updateLikeCount(Map<String, Object> param);
 	
+	//게시글 수정
+	int updateBoard(Board.Detail detail);
+	
+	//게시글 지우기
+	int deleteBoard(@Param("brdId") int brdId);
+	//파일하나 지우기
+	int deleteBoardFile(@Param("bfId") int bfId);
+	//모든 파일 지우기
+	int deleteAllBoardFiles(@Param("brdId") int brdId);
 	
 }

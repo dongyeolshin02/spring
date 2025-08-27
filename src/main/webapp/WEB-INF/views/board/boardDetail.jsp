@@ -161,15 +161,18 @@ a:visited {
 	  like.text(newCount);
 	  
 	  
-	  //ajax 로 db 업데이트 
-	  $.ajax({
-		  url :'/board/like.do',
-		  type :'get',
-		  dataType : 'json',
-		  data :{
+	  const dataParam = {
 			  likeCount : newCount,
 			  brdId : $('#brdId').val()
-		  }
+		    };
+	  
+	  //ajax 로 db 업데이트  > ajax 쓸때 json 문서 전송 방법 예제 
+	  $.ajax({
+		  url :'/board/like.do',
+		  type :'patch',
+		  dataType : 'json',
+		  contentType : 'application/json', //기본은 application/x-www-form-urlencoded
+		  data : JSON.stringify(dataParam)   // 자바스크립트 객체를 json 형식으로 변환 
 	  }).done(function(res) {
 		  //오류메시지가 있을때만 출력 
 		  if(res.msg.length > 0) {
@@ -177,9 +180,12 @@ a:visited {
 		  }
 	  }).fail(function(xhr, status, error) {
 		alert('업데이트 실패')
-	  });
-
-	  
+	  });	  
+  }
+  
+  
+  const writeBoard = () =>{
+	  location.href = '/board/write/view.do?brdId=' + $('#brdId').val();
   }
 
 </script>

@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -43,11 +42,11 @@ public class TestMock {
 	 
 	 
 	@Test
-	   public void testBoardListView2() throws Exception {
-	        mockMvc.perform(get("/board/list2.do"))
+	public void testBoardListView2() throws Exception {
+		mockMvc.perform(get("/board/list2.do"))
 	               .andExpect(status().isOk())
 	               .andExpect(view().name("board/boardList2"))
 	               .andDo(print());
-	    }
+	}
 	
 }

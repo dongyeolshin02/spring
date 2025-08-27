@@ -101,6 +101,42 @@
  	  where brd_id = #{brdId}
  
  </update>
+ 
+ 
+ <update id="updateBoard"  parameterType="boardDetail">
+ 
+   update board
+   <set>
+      <if test="title neq null and  title neq ''">
+          title = #{title},
+      </if>
+      
+      <if test="contents neq null and  contents neq ''">
+          contents = #{contents},
+      </if>
+      update_date = now()
+   </set>
+   where brd_id = #{brdId}
+ 
+ 
+ </update>
+ 
+ 
+ <delete id ="deleteBoard"   parameterType="map" >
+      delete from board  where  brd_id = #{brdId}
+ </delete>
+ 
+ 
+  <delete id ="deleteBoardFile"   parameterType="map" >
+      delete from board_files  where bf_id = #{bfId}
+ </delete>
+ 
+   <delete id ="deleteAllBoardFiles"   parameterType="map" >
+      delete from board_files  where brd_id = #{brdId}
+ </delete>
+ 
+ 
+ 
   
   
 </mapper>

@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -121,6 +123,33 @@ public class BoardController {
 	}
 	
 	
+	
+	@PostMapping("/update.do")
+	public ModelAndView  updateBoard(@ModelAttribute Board.Request request)  {
+	
+		int result = 0;
+		String msg = "";
+		
+		ModelAndView view = new ModelAndView();
+		view.setViewName("board/result");
+		try {
+			
+			result = service.updateBoard(request);
+			msg =  result > 0 ? "글이 수정되었습니다." : "글수정이 실패했습니다.";
+					
+		}catch (Exception e) {
+			msg = "글수정 중에 오류가 발생했습니다.";
+			e.printStackTrace();
+		}finally {
+			view.addObject("msg", msg);
+		}
+		
+		
+		return view;
+	}
+	
+	
+	
 	@GetMapping("/detail.do")
 	public ModelAndView getBoardDetailView(@RequestParam("brdId") int brdId,
 											@RequestParam("currentPage") int currentPage) {
@@ -139,6 +168,25 @@ public class BoardController {
 		
 		return view;
 	}
+	
+	
+	@GetMapping("/write/view.do")
+	public ModelAndView getWriteView(@RequestParam("brdId") int brdId) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("board/updateForm");
+		Board.Detail detail = null;
+		try {
+			
+			detail = service.getBoard(brdId);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		view.addObject("vo", detail);
+		
+		return view;
+	}
+	
 	
 	
 	@GetMapping("/down.do")
@@ -200,17 +248,12 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/like.do")
-	public Map<String, Object> updateLike(@RequestParam("brdId") int brdId,
-										 @RequestParam("likeCount") int likeCount){
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("likeCount", likeCount);
-		map.put("brdId", brdId);
-		map.put("msg", "");
+	@PatchMapping("/like.do")
+	//@RequestBody  json 문서는 요청객체 바디에서 직접 꺼내야한다....`
+	public Map<String, Object> updateLike(@RequestBody Map<String, Object> map){
 		
 		String msg = "";
-		
+		map.put("msg", "");
 		try {
 			
 			int result = service.updateLikeCount(map);
