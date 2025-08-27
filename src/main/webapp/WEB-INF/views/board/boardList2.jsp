@@ -13,7 +13,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 10vh;
-    height:90vh;
+    height:70vh;
     
  }
 
@@ -23,7 +23,7 @@
 
 .data-list{
     width : 100%;
-    height : 600px;
+    height : 500px;
     margin-top: 30px;
     overflow: auto;
 }
@@ -31,6 +31,7 @@
 </style>
 </head>
 <body>
+   <%@ include file="../header/header.jsp" %>
    <main class="container">
      <section class="contents">
         <header class="text-center">

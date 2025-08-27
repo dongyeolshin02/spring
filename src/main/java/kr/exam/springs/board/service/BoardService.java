@@ -156,6 +156,35 @@ public class BoardService {
 		return result;
 	}
 	
+	
+	@Transactional(
+			rollbackFor = Exception.class,
+			propagation = Propagation.REQUIRED, // 기존트랙션이 있음 사용, 없으면 생성 
+			isolation = Isolation.READ_COMMITTED //적용된것만 읽기 > 데이터를 가져올때 같은 시간에 수정 중이거나 처리 중인건 제외 
+			)
+	public int deleteBoard(int brdId) throws Exception{
+		
+		Board.Detail detail =  mapper.getBoard(brdId);
+		
+		int result = mapper.deleteBoard(brdId);
+		//오류나면 예외처리 
+		if(result < 0) {
+			throw new Exception();
+		}
+		
+		//기존 파일 삭제 
+		for(Board.BoardFiles file : detail.getFiles()) {		
+			String fullPath = file.getFilePath() + file.getStoredName();
+			//디비도 지우기 
+			//mapper.deleteBoardFile(file.getBfId());
+			//물리적 파일 지우기 
+			this.deleteFile(fullPath);
+		}
+		
+		return result;
+	}
+	
+	
 	//파일 하나 지우기 
 	public int deleteFile(int bfId) throws Exception{
 		int result = 0;

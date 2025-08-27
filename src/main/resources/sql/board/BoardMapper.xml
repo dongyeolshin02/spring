@@ -17,6 +17,8 @@
     <collection property="files" ofType="boardFiles">
     	<id property="bfId" column="bf_id"/>
     	<result property="fileName" column ="file_name"/>
+    	<result property="storedName" column ="stored_name"/>
+    	<result property="filePath" column ="file_path"/>
     </collection>
 </resultMap>
 
@@ -55,7 +57,9 @@
 		       b.create_date ,
 		       b.update_date ,
 		       bf.bf_id ,
-		       bf.file_name
+		       bf.file_name,
+		       bf.stored_name,
+		       bf.file_path
 		from board b
 		  left join board_files bf on b.brd_id  = bf.brd_id
 		where b.brd_id = #{brdId}

@@ -13,6 +13,9 @@
 		<typeAlias type="kr.exam.springs.board.vo.Board$Response" alias="boardResp"/>
 		<typeAlias type="kr.exam.springs.board.vo.Board$BoardFiles" alias="boardFiles"/>
 		<typeAlias type="kr.exam.springs.board.vo.Board$Detail" alias="boardDetail"/>
+		
+		<typeAlias type="kr.exam.springs.user.vo.Users$LoginUser" alias="loginUser"/>
+		
 	</typeAliases>
 	
 </configuration>

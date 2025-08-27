@@ -41,23 +41,24 @@
       align-items: flex-start;
    }
 
-	a {
+.file-item	a {
 	  text-decoration: none;
 	  color : black;
 	}
 	
-	a:hover{
+.file-item	a:hover{
 	  color : #167edb;
 	  font-weight: 600;
 	}
 	
-	a:visited {
+.file-item	a:visited {
 		color : black;
 	}
 
 </style>
 </head>
 <body>
+  <%@ include file="../header/header.jsp" %>
   <main class="container">
      <header class="text-center">
         <h2>게시글 수정</h2>

@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -147,6 +148,32 @@ public class BoardController {
 		
 		return view;
 	}
+	
+	
+	@GetMapping("/delete.do")
+	public ModelAndView  deleteBoard(@RequestParam("brdId") int brdId)  {
+		
+		int result = 0;
+		String msg = "";
+		
+		ModelAndView view = new ModelAndView();
+		view.setViewName("board/result");
+		try {
+			
+			result = service.deleteBoard(brdId);
+			msg =  result > 0 ? "글이 삭제되었습니다." : "글삭제가 실패했습니다.";
+					
+		}catch (Exception e) {
+			msg = "글삭제 중에 오류가 발생했습니다.";
+			e.printStackTrace();
+		}finally {
+			view.addObject("msg", msg);
+		}
+				
+		return view;
+	}
+	
+	
 	
 	
 	

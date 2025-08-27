@@ -45,23 +45,24 @@
       align-items: flex-start;
    }
 
-a {
+.file-list a {
   text-decoration: none;
   color : black;
 }
 
-a:hover{
+.file-list a:hover{
   color : #167edb;
   font-weight: 600;
 }
 
-a:visited {
+.file-list  a:visited {
 	color : black;
 }
 
 </style>
 </head>
 <body>
+ <%@ include file="../header/header.jsp" %>
   <main class="container">
      <header class="text-center">
         <h2>게시글 쓰기</h2>
@@ -140,7 +141,7 @@ a:visited {
      <section class="text-center">
      	<button type="button" class="btn btn-primary me-2" onclick="writeBoard();">글 수정</button>
      	<button type="button" class="btn btn-warning me-2" onclick="updateLike();">좋아요</button>
-     	<button type="button" class="btn btn-danger  me-2" onclick="writeBoard();">글 삭제</button>
+     	<button type="button" class="btn btn-danger  me-2" onclick="deleteBoard();">글 삭제</button>
      	<button type="button" class="btn btn-secondary" onclick="goList();">목록</button>
      </section>
   </main>
@@ -186,6 +187,16 @@ a:visited {
   
   const writeBoard = () =>{
 	  location.href = '/board/write/view.do?brdId=' + $('#brdId').val();
+  }
+  
+  
+  const deleteBoard = () =>{
+	  const isConfirm = confirm('정말 삭제하시겠습니까?');
+	  
+	  
+	  if(isConfirm) {
+		  location.href = '/board/delete.do?brdId=' + $('#brdId').val();
+	  }
   }
 
 </script>

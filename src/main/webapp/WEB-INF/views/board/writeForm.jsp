@@ -35,6 +35,7 @@
 </style>
 </head>
 <body>
+  <%@ include file="../header/header.jsp" %>
   <main class="container">
      <header class="text-center">
         <h2>게시글 쓰기</h2>
