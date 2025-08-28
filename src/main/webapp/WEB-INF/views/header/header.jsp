@@ -50,10 +50,13 @@
 	        <div class="nav-container">
 	            <ul class="nav-menu">
 	                <li class="nav-item">
-	                    <a href="/board/list.do"  data-page="naver" class="nav-link">게시판1</a>
+	                    <a href="/board/list.do" class="nav-link">게시판1</a>
 	                </li>
 	                <li class="nav-item">
-	                    <a href="/board/list2.do"   data-page="daum" class="nav-link">게시판2</a>
+	                    <a href="/board/list2.do" class="nav-link">게시판2</a>
+	                </li>
+	                 <li class="nav-item">
+	                    <a href="/user/list.do"  class="nav-link">사용자리스트</a>
 	                </li>
 	            </ul>
 	            <ul class="nav-menu">

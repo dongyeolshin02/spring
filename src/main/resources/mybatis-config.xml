@@ -15,6 +15,7 @@
 		<typeAlias type="kr.exam.springs.board.vo.Board$Detail" alias="boardDetail"/>
 		
 		<typeAlias type="kr.exam.springs.user.vo.Users$LoginUser" alias="loginUser"/>
+		<typeAlias type="kr.exam.springs.user.vo.Users$UserInfo" alias="users"/>
 		
 	</typeAliases>
 	

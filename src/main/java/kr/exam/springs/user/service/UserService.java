@@ -1,5 +1,8 @@
 package kr.exam.springs.user.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import kr.exam.springs.common.page.PageVO;
 import kr.exam.springs.user.mapper.UserMapper;
 import kr.exam.springs.user.vo.Users;
 import lombok.RequiredArgsConstructor;
@@ -33,4 +37,44 @@ public class UserService {
 		
 		return result;
 	}
+	
+	public Map<String, Object> getUserList(Map<String, Object> param) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int currentPage = (int)param.get("currentPage");
+		//전체 회원수
+		int total = mapper.getAllUserCount(param);
+		//페이지객체
+		PageVO page = new PageVO();
+		page.setData(currentPage, total);
+		
+		List<Users.UserInfo> userList = new ArrayList<>();
+		
+		if(total > 0 ) {
+			//페이지 처리 범위를 파라메터 맵에 넣는다.
+			param.put("offSet", page.getOffSet());
+			param.put("count", page.getCount());
+			//페이지에 보여줄 리스트 가져오기 
+			userList = mapper.getUserList(param);
+		}
+		
+		//클라이언트에 넘겨줄 데이터 셋 저장 
+		resultMap.put("currentPage", currentPage);
+		resultMap.put("total", total);
+		resultMap.put("dataList", userList);
+		resultMap.put("pageHTML", page.pageHTML());
+		
+		
+		return resultMap;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

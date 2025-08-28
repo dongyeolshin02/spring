@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 리스트</title>
-<link rel ="stylesheet" href="/webjars/bootstrap/5.3.1/css/bootstrap.min.css"/>
+<%@ include file="/static/common/common.jsp" %>
 <style>
 
 .container{
@@ -75,10 +75,7 @@
      </section>
    </main>
 </body>
-<script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
-<script src="/webjars/bootstrap/5.3.1/js/bootstrap.min.js"></script>
 <script>
-
    function movePage(pageNum) {
 	   //페이지 번호 업데이트 
 	   $('#currentPage').val(pageNum);
@@ -139,14 +136,7 @@
    }
    
    
-   function  makeTD(className,  contents){
-	   const td = $('<td></td>');
-	   td.addClass(className);
-	   td.append(contents);
-	   
-	   return td;
-   }
-   
+
    
    const goWrite = () => {
 	   location.href = '/board/form.do';

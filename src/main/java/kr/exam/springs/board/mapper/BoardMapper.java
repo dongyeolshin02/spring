@@ -33,6 +33,8 @@ public interface BoardMapper {
 	Board.BoardFiles getBoardFiles(@Param("bfId") int bfId);
 	//좋아요 올리기
 	int updateLikeCount(Map<String, Object> param);
+	//게시글 조회수 올리기
+	int updateReadCount(@Param("brdId")int brdId, @Param("readCount")int readCount);
 	
 	//게시글 수정
 	int updateBoard(Board.Detail detail);

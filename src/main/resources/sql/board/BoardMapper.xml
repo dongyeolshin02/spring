@@ -107,6 +107,15 @@
  </update>
  
  
+  <update id="updateReadCount"  parameterType="map" >
+ 
+ 	  update board
+ 	  set  read_count = #{readCount}
+ 	  where brd_id = #{brdId}
+ 
+ </update>
+ 
+ 
  <update id="updateBoard"  parameterType="boardDetail">
  
    update board

@@ -12,7 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.method.annotation.InitBinderDataBinderFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.exam.springs.board.service.BoardService;
@@ -179,13 +178,15 @@ public class BoardController {
 	
 	@GetMapping("/detail.do")
 	public ModelAndView getBoardDetailView(@RequestParam("brdId") int brdId,
-											@RequestParam("currentPage") int currentPage) {
+											@RequestParam("currentPage") int currentPage,
+											@CookieValue(name="board", defaultValue = "")String cookiValue,
+											HttpServletResponse resp) {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("board/boardDetail");
 		Board.Detail detail = null;
 		try {
 			
-			detail = service.getBoard(brdId);
+			detail = service.getBoard(brdId, cookiValue, resp);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

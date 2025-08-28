@@ -10,4 +10,16 @@ public class Users {
 		private String userName;
 		private String birth;
 	}
+	
+	
+	@Data
+	public static class UserInfo {
+		
+		private String userId;
+		private String passwd;
+		private String userName;
+		private String birth;
+		private String phone;
+		private String email;
+	}
 }

@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.checkerframework.checker.units.qual.m;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -220,6 +223,40 @@ public class BoardService {
 	
 	
 	/**
+	 * 상세화면 데이터 가져오기 with 조회수 처리 
+	 * @param brdId
+	 * @return
+	 * @throws Exception
+	 */
+	public Board.Detail  getBoard(int brdId, String cookiValue,
+			                   HttpServletResponse resp) throws Exception{
+		
+		Board.Detail  detail = mapper.getBoard(brdId);
+		String readId = "read_" + brdId;
+		
+		//쿠키에 brdId 값이 없으면 처음 보는 게시글 
+		if(!cookiValue.contains(readId)) {
+			int count = detail.getReadCount();
+			
+			detail.setReadCount(++count);
+			//데이터베이스 처리 
+			mapper.updateReadCount(brdId, count);
+			
+			//쿠키 저장
+			cookiValue += "_" + readId;
+			Cookie cookie = new Cookie("board", cookiValue);
+			//쿠키 저장시간 3시간 
+			cookie.setMaxAge(60*60*3);
+			//map 처럼 key 가 중복되면  value가 최신화 
+			resp.addCookie(cookie);
+			
+		}
+	
+		return detail;
+	}
+	
+	
+	/**
 	 * 파일정보 가져오기
 	 * @param bfId
 	 * @return
@@ -245,7 +282,7 @@ public class BoardService {
 	public Board.BoardFiles  uploadFiles(int brdId, MultipartFile multiFile)  throws Exception{
 		
 		//내용이 없음 > 선택 안하면 비어 있음 
-		if(multiFile.isEmpty()) {
+		if(multiFile== null || multiFile.isEmpty()) {
 			return null;
 		}
 		

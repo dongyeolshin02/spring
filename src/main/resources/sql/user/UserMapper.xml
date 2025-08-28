@@ -14,4 +14,35 @@
 
 </select>
 
+<select id="getAllUserCount" parameterType="map" resultType="int">
+
+
+	select count(*) as cnt
+	from users
+
+</select>
+
+<select id="getUserList"  parameterType="map" resultType="users">
+
+
+	select *
+	from users
+	<where>
+	   <if test="type neq null and  searchText neq null">
+	      <choose>
+			   <when test="type eq 'userId' ">
+			      and user_id like concat('%', #{searchText}, '%')
+			   </when>
+			   <when test="type eq 'userName' ">
+			      and user_name like concat('%', #{searchText}, '%')
+			   </when>
+		   </choose>
+	   </if>
+	</where>
+	order by user_name asc
+	limit #{offSet}, #{count}
+
+
+</select>
+
 </mapper>

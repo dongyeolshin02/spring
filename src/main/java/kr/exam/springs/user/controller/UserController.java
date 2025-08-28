@@ -58,11 +58,53 @@ public class UserController {
 	
 		return map;
 	
+	}
+	
+
+	
+	@GetMapping("/list.do")
+	public ModelAndView userListView(
+			@RequestParam(name="currentPage", defaultValue = "0") int currentPage) {
+		
+		ModelAndView view = new ModelAndView();
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			map.put("currentPage", currentPage);
+			map = service.getUserList(map);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		view.addObject("data", map);
+		view.setViewName("user/userList");
+		
+		return view;
+	}
 	
 	
-	
-	
-	
-	
+	@GetMapping("/search.do")
+	@ResponseBody  // ajax 호출에 대한 데이터 전송 
+	public Map<String, Object> searchUser( @RequestParam(name="type") String type,
+									@RequestParam(name="schText")String searchText) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			
+			//검색 후에는 무조건 첫페이지 
+			map.put("currentPage", 0);
+			map.put("type", type);
+			map.put("searchText", searchText);
+			map = service.getUserList(map);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return map;
 	}
 }
