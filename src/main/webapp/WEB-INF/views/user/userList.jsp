@@ -31,7 +31,7 @@
            <button type="button"
                 class="btn btn-success ms-2" onclick="searchEvt();">검색</button>
            <div class="sch-btn">
-              <button type="button" class="btn btn-primary ms-2">등록</button>
+              <button type="button" class="btn btn-primary ms-2" onclick="addUserEvt();">등록</button>
            </div>
          </section>
          <section class="data-list">
@@ -80,6 +80,9 @@
 <script>
 
 
+  const    addUserEvt = () =>{
+	  location.href ="/user/join.do";
+  }
 
   const searchEvt =() =>{
 	  const type =  document.querySelector('#schType').value;

@@ -81,15 +81,19 @@
     </beans:bean>
 
     <!-- 인터셉터 설정 (필요 시 활성화) -->
-    <!--
+   
     <interceptors>
         <interceptor>
-            <mapping path="/**"/>
+            <mapping path="/board/**"/>     
+            <exclude-mapping path="/board/list.do"/>
+            <exclude-mapping path="/board/list2.do"/>
+            <exclude-mapping path="/board/list/data.do"/>
+            <exclude-mapping path="/board/detail.do"/>
             <exclude-mapping path="/resources/**"/>
             <exclude-mapping path="/webjars/**"/>
-            <beans:bean class="kr.exam.springs.interceptor.LogInterceptor"/>
+            <beans:bean class="kr.exam.springs.interceptor.LoginInterceptor"/>
         </interceptor>
     </interceptors>
-    -->
+ 
 
 </beans:beans>

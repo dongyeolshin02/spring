@@ -191,9 +191,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		
-	
-
 		<!-- Utilities -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -231,11 +228,10 @@
 		    <version>1.16</version>
 		</dependency>
 		
-		<!-- Mockito -->
 		<dependency>
 		    <groupId>org.mockito</groupId>
-		    <artifactId>mockito-core</artifactId>
-		    <version>3.12.4</version>
+		    <artifactId>mockito-junit-jupiter</artifactId>
+		    <version>5.19.0</version>
 		    <scope>test</scope>
 		</dependency>
 		
@@ -248,24 +244,38 @@
 		</dependency>
 		
 		
-		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-		<dependency>
-		    <groupId>org.junit.jupiter</groupId>
-		    <artifactId>junit-jupiter-api</artifactId>
-		    <version>5.13.4</version>
-		    <scope>test</scope>
-		</dependency>
-		
-		<dependencies>
-		<dependency>
+       	<dependency>
 	    	<groupId>org.junit.jupiter</groupId>
 	        <artifactId>junit-jupiter</artifactId>
 	        <version>5.5.0</version>
 	        <scope>test</scope>
 	    </dependency>
+		
+		
+		 <dependency>
+	        <groupId>org.junit.jupiter</groupId>
+	        <artifactId>junit-jupiter-api</artifactId>
+	        <version>5.8.2</version>
+	        <scope>test</scope>
+	    </dependency>
+	    
+	    <!-- JUnit 5 Jupiter Engine -->
+	    <dependency>
+	        <groupId>org.junit.jupiter</groupId>
+	        <artifactId>junit-jupiter-engine</artifactId>
+	        <version>5.8.2</version>
+	        <scope>test</scope>
+	    </dependency>
+	    
+	    <!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20250517</version>
+		</dependency>
+		
 </dependencies>
 		
-	</dependencies>
 
 	<build>
 		<plugins>
@@ -294,13 +304,15 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-
 			<!-- Surefire Plugin for Testing -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.1.2</version>
-			</plugin>
+			 <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-surefire-plugin</artifactId>
+		      <version>3.2.5</version>
+		      <configuration>
+		        <useModulePath>false</useModulePath>
+		      </configuration>
+		    </plugin>
 		</plugins>
 	</build>
 

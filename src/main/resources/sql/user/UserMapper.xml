@@ -45,4 +45,18 @@
 
 </select>
 
+ <select id="checkId" parameterType="map" resultType="int">
+ 
+    select count(*) cnt
+    from users where user_id = #{userId}
+ 
+ </select>
+
+ <insert id="addUser" parameterType="users">
+ 
+   insert into users(user_id, user_name, passwd, birth, phone, email)
+        values(#{userId}, #{userName}, #{passwd}, #{birth},  #{phone}, #{email})
+ 
+ </insert>
+
 </mapper>

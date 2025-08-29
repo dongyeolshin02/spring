@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
 import org.springframework.stereotype.Service;
 
 import kr.exam.springs.common.page.PageVO;
@@ -70,7 +71,18 @@ public class UserService {
 	
 	
 	
-	
+	public int addUser(Users.UserInfo  user) throws Exception  {
+		
+		int existsId = mapper.checkId(user.getUserId());
+		
+		if(existsId > 0) {
+			 throw new DuplicateMemberException("아이디가 이미 사용중입니다");
+		}
+		
+		int result = mapper.addUser(user);
+		
+		return result;
+	}
 	
 	
 	

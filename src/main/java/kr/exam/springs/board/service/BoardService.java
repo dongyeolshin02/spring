@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import org.checkerframework.checker.units.qual.m;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -80,7 +79,6 @@ public class BoardService {
 		try {
 			
 			//1.글등록
-			request.setWriter("admin");
 			result = mapper.insertBoard(request);
 			
 			if(result < 0) {

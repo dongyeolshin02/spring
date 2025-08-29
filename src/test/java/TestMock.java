@@ -43,9 +43,9 @@ public class TestMock {
 	 
 	@Test
 	public void testBoardListView2() throws Exception {
-		mockMvc.perform(get("/board/list2.do"))
+		mockMvc.perform(get("/board/list.do"))
 	               .andExpect(status().isOk())
-	               .andExpect(view().name("board/boardList2"))
+	               .andExpect(view().name("board/boardList"))
 	               .andDo(print());
 	}
 	

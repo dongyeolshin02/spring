@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.exam.springs.board.service.BoardService;
 import kr.exam.springs.board.vo.Board;
+import kr.exam.springs.user.vo.Users;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -99,7 +101,8 @@ public class BoardController {
 	
 	
 	@PostMapping("/write.do")
-	public ModelAndView  writeBoard(@ModelAttribute Board.Request request)  {
+	public ModelAndView  writeBoard(@ModelAttribute Board.Request request,
+			                        @SessionAttribute("userInfo") Users.LoginUser user)  {
 	
 		int result = 0;
 		String msg = "";
@@ -107,7 +110,8 @@ public class BoardController {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("board/result");
 		try {
-			
+			//글쓴이 등록 
+			request.setWriter(user.getUserId());
 			result = service.writeBoard(request);
 			msg =  result > 0 ? "새글이 등록되었습니다." : "글등록이 실패했습니다.";
 					

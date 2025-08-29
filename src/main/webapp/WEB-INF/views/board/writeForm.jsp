@@ -86,7 +86,7 @@
      </section>
      <section class="text-center">
      	<button type="button" class="btn btn-primary me-2" onclick="writeBoard();">글쓰기</button>
-     	<button type="button" class="btn btn-secondary">취소</button>
+     	<button type="button" class="btn btn-secondary" onclick="goList();">취소</button>
      </section>
   </main>
 </body>
@@ -130,6 +130,10 @@
 	  if(valiadted() ){
 		  $('#frm').submit();
 	  }
+  }
+  
+  const goList = () =>{
+	  location.href = ' /board/list2.do';
   }
 
 

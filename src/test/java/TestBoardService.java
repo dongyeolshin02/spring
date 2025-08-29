@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class TestBoardService  {
 	private BoardMapper mapper;
 
 	@Test
+	@DisplayName("게시판 리스트가져오기")
 	public void testGetBoardList()  throws Exception{
 		PageVO page = new PageVO();
 		//given
@@ -54,6 +56,7 @@ public class TestBoardService  {
 		assertNotEquals("결과가 null이면 안됩니다", res);
 		assertNotEquals("dataList는 null이면 안됩니다", res.get("dataList"));
 		assertNotEquals("pageHTML은 null이면 안됩니다", res.get("pageHTML"));
+		
 	}
 	
 	
@@ -73,8 +76,7 @@ public class TestBoardService  {
 		//when
 		int result = service.writeBoard(request);
 		//then
-		assertEquals(result, 1);
-		
+		assertEquals(result, 1);	
 		Board.Detail savedBoard = mapper.getBoard(request.getBrdId());
 	    assertNotNull(savedBoard, "등록된 게시글을 조회할 수 있어야 합니다");
 	    assertEquals(savedBoard.getTitle(), "테스트111", "제목이 일치해야 합니다");

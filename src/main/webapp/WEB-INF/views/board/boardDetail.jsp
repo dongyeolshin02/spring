@@ -139,9 +139,13 @@
      	</form>
      </section>
      <section class="text-center">
-     	<button type="button" class="btn btn-primary me-2" onclick="writeBoard();">글 수정</button>
-     	<button type="button" class="btn btn-warning me-2" onclick="updateLike();">좋아요</button>
-     	<button type="button" class="btn btn-danger  me-2" onclick="deleteBoard();">글 삭제</button>
+       <c:if test="${isLogin}">
+            <button type="button" class="btn btn-warning me-2" onclick="updateLike();">좋아요</button>
+            <c:if test="${user.userId eq vo.writer }">
+     		  <button type="button" class="btn btn-primary me-2" onclick="writeBoard();">글 수정</button>	
+     		  <button type="button" class="btn btn-danger  me-2" onclick="deleteBoard();">글 삭제</button>
+     		</c:if>
+     	</c:if>
      	<button type="button" class="btn btn-secondary" onclick="goList();">목록</button>
      </section>
   </main>
@@ -152,6 +156,7 @@
 	  const currentPage = $('#currentPage').val();
 	  location.href ="/board/list2.do?currentPage=" + currentPage;
   }
+  
   
   const updateLike = ()=>{
 	  
@@ -180,7 +185,10 @@
 			  alert(res.msg);
 		  }
 	  }).fail(function(xhr, status, error) {
-		alert('업데이트 실패')
+		  if(xhr.status === 500) {
+			  const res = JSON.parse(xhr.responseText);
+			  alert(res.msg[0]);
+		  }
 	  });	  
   }
   
@@ -198,6 +206,8 @@
 		  location.href = '/board/delete.do?brdId=' + $('#brdId').val();
 	  }
   }
+  
+  
 
 </script>
 </html>

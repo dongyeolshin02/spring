@@ -45,6 +45,9 @@
 </style>
 </head>
 <body>
+ <!-- 전역변수하나 만들어놓은 것 이라고 생각하세요  -->
+  <c:set var="isLogin" value="${not empty sessionScope.userInfo}" scope="session"/>
+  <c:set var="user" value="${sessionScope.userInfo != null ? sessionScope.userInfo : null}" scope="session"/>
 	<header>
 	    <nav>
 	        <div class="nav-container">
@@ -61,11 +64,11 @@
 	            </ul>
 	            <ul class="nav-menu">
 	                <li class="nav-item">
-	                   <c:if test="${sessionScope.userInfo == null }">
+	                   <c:if test="${!isLogin }">
 	                      <a href="/user/login.do"  data-page="register"class="nav-link">로그인</a>
 	                    </c:if>
-	                     <c:if test="${sessionScope.userInfo != null }">
-	                         <p style="color:white"> ${sessionScope.userInfo.userName } 님 환영합니다</p>
+	                     <c:if test="${isLogin }">
+	                         <p style="color:white"> ${user.userName} 님 환영합니다</p>
 	                         <span style="color:white;"><a href="/logout.do">로그아웃 </a></span> 
 	                     </c:if>
 	                </li>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.exam.springs.user.vo.Users;
 
@@ -20,4 +21,9 @@ public interface UserMapper {
 	int getAllUserCount(Map<String, Object> param);
 	//페이지에 보여줄 사용자리스트 
 	List<Users.UserInfo> getUserList(Map<String, Object> param);
+	//아이디 체크
+	int checkId(@Param("userId")String userId);
+	//사용자 등록 
+	int addUser(Users.UserInfo users);
+	
 }

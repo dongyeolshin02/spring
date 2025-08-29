@@ -4,10 +4,13 @@
        xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
     http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/task 
+    http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!-- db 관련 설정 properties 를 읽어온다... -->
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -65,5 +68,7 @@
 
     <!-- Transaction 어노테이션 활성화 -->
     <tx:annotation-driven transaction-manager="transactionManager" />
-
+    
+    <task:annotation-driven />
+    <bean id="mySchedulerTest" class="kr.exam.springs.schedule.MySchedulerTest"/>
 </beans>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.exam.springs.user.service.UserService;
+import kr.exam.springs.user.vo.Users;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -29,6 +30,15 @@ public class UserController {
 		ModelAndView view = new ModelAndView("user/loginForm");
 		return view;
 	}
+	
+	
+	@GetMapping("/join.do")
+	public ModelAndView joinView() {
+		ModelAndView view = new ModelAndView("user/register");
+		return view;
+	}
+	
+	
 	
 	@PostMapping("/login.do")
 	@ResponseBody //controller 에서 ajax 콜 응답을 위해 처리 
@@ -107,4 +117,40 @@ public class UserController {
 		
 		return map;
 	}
+	
+	@PostMapping("/add.do")
+	@ResponseBody
+	public Map<String, Object> addUser(Users.UserInfo user) {
+		 Map<String, Object> resultMap = new HashMap<>();
+		 resultMap.put("resultCode", 200);
+		 
+		 try {
+			 
+			 int result = service.addUser(user);
+			 
+			 if(result < 0) {
+				 throw new Exception();
+			 }
+			 			
+		 }catch (Exception e) {
+			resultMap.put("resultCode", 500);
+			 e.printStackTrace();
+		}
+		 
+		 
+		 
+		 return resultMap;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
